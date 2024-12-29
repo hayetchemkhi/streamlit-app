@@ -40,6 +40,11 @@ pipeline {
                 }
             }
         }
+         stage('Install/Update Dependencies') {
+    steps {
+        sh 'pip install numpy==1.23.0 pandas==1.5.3'
+    }
+}
 
         stage('Install Dependencies') {
             steps {
