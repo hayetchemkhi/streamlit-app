@@ -2,14 +2,14 @@ pipeline {
     agent any
 
     environment {
-        // Définir la version de Python que vous voulez utiliser
+        // Définir la version de Python
         PYTHON_VERSION = '3.9'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                // Récupérer le code du repository Git
+                // Récupérer le code depuis le repository Git
                 checkout scm
             }
         }
@@ -17,7 +17,7 @@ pipeline {
         stage('Set up Python') {
             steps {
                 script {
-                    // Installer Python et Pip (si ce n'est pas déjà fait)
+                    // Installer Python et pip si nécessaire
                     sh 'sudo apt-get update'
                     sh 'sudo apt-get install -y python${PYTHON_VERSION} python3-pip'
                     sh 'python3 -m pip install --upgrade pip'
@@ -27,8 +27,10 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                // Installer les dépendances à partir du fichier requirements.txt
-                sh 'pip install -r requirements.txt'
+                script {
+                    // Installer les dépendances depuis requirements.txt
+                    sh 'pip install -r requirements.txt'
+                }
             }
         }
 
@@ -40,24 +42,16 @@ pipeline {
                 }
             }
         }
-
-        stage('Post Test') {
-            steps {
-                script {
-                    // Vous pouvez ajouter des actions post-test (par exemple, rapports, nettoyage, etc.)
-                }
-            }
-        }
     }
 
     post {
         always {
-            // Toujours exécuter cette étape (par exemple, nettoyage, rapports, etc.)
+            // Toujours exécuter cette étape, par exemple nettoyage, rapports, etc.
             echo 'Pipeline terminé'
         }
 
         success {
-            echo 'Tests réussis, déploiement ou autres actions à ajouter ici.'
+            echo 'Tests réussis'
         }
 
         failure {
