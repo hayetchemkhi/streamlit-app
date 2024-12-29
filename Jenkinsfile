@@ -10,18 +10,26 @@ pipeline {
         stage('Installer les Dépendances') {
             steps {
                 script {
-                    // Créer l'environnement virtuel s'il n'existe pas et installer les dépendances
                     echo 'Création de l\'environnement virtuel et installation des dépendances'
                     sh '''
+                        # Vérification de Python3
+                        if ! command -v python3 &> /dev/null; then
+                            echo "Python3 non trouvé. Installation..."
+                            sudo apt update
+                            sudo apt install python3 python3-venv -y
+                        fi
+
+                        # Création du venv
                         if [ ! -d "venv" ]; then
                             python3 -m venv venv
                         fi
 
+                        # Activation du venv
                         if [ -f "venv/bin/activate" ]; then
                             . venv/bin/activate
                             pip install -r requirements.txt
                         else
-                            echo "Erreur : Impossible de créer l'environnement virtuel"
+                            echo "Erreur : Échec de la création de venv"
                             exit 1
                         fi
                     '''
