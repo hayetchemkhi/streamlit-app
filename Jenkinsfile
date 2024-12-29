@@ -20,10 +20,7 @@ pipeline {
                     sh 'sudo apt-get install -y software-properties-common'
                     sh 'sudo add-apt-repository ppa:deadsnakes/ppa -y'
                     sh 'sudo apt-get update'
-                    sh 'sudo apt-get install -y python3.9 python3-pip'
-
-                    // Installer distutils pour résoudre le problème de module manquant
-                    sh 'sudo apt-get install -y python3.9-distutils'
+                    sh 'sudo apt-get install -y python3.9 python3-pip python3.9-distutils'
 
                     // Vérifier l'installation de Python et pip
                     sh 'python3.9 --version'
@@ -32,11 +29,23 @@ pipeline {
             }
         }
 
+        stage('Create Virtual Environment') {
+            steps {
+                script {
+                    // Créer un environnement virtuel
+                    sh 'python3.9 -m venv venv'
+
+                    // Activer l'environnement virtuel
+                    sh '. venv/bin/activate'
+                }
+            }
+        }
+
         stage('Install Dependencies') {
             steps {
                 script {
-                    // Installer les dépendances depuis requirements.txt
-                    sh 'pip install -r requirements.txt'
+                    // Installer les dépendances depuis requirements.txt dans l'environnement virtuel
+                    sh '. venv/bin/activate && pip install -r requirements.txt'
                 }
             }
         }
@@ -44,8 +53,8 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    // Exécuter les tests unitaires avec pytest
-                    sh 'pytest --maxfail=1 --disable-warnings -q'
+                    // Exécuter les tests unitaires avec pytest dans l'environnement virtuel
+                    sh '. venv/bin/activate && pytest --maxfail=1 --disable-warnings -q'
                 }
             }
         }
