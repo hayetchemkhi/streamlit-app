@@ -19,7 +19,7 @@ pipeline {
                         fi
 
                         # Activer l'environnement virtuel et installer les dépendances
-                        source venv/bin/activate
+                        . venv/bin/activate
                         pip install -r requirements.txt
                     '''
                 }
