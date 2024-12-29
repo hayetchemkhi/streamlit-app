@@ -30,19 +30,20 @@ pipeline {
         }
 
         stage('Create Virtual Environment') {
-            steps {
-                script {
-                    // Créer un environnement virtuel
-                    sh 'python3.9 -m venv venv'
-
-                    // Activer l'environnement virtuel
-                    sh '. venv/bin/activate'
-                }
-            }
-        }
-         stage('Install/Update Dependencies') {
     steps {
-        sh 'pip install numpy==1.23.0 pandas==1.5.3'
+        sh 'python3.9 -m venv venv'
+    }
+}
+
+stage('Install/Update Dependencies') {
+    steps {
+        script {
+            sh '''
+            . venv/bin/activate
+            pip install --upgrade pip
+            pip install numpy==1.23.0 pandas==1.5.3
+            '''
+        }
     }
 }
 
