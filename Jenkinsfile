@@ -12,11 +12,17 @@ pipeline {
         
         // Étape 2 : Installer les Dépendances (via requirements.txt)
         stage('Installer les Dépendances') {
-            steps {
-                sh '. venv/bin/activate' && pip3 install -r requirements.txt'
-
+    steps {
+        script {
+            // Vérifier si venv existe, sinon le créer
+            if (!fileExists('venv')) {
+                sh 'python3 -m venv venv'
             }
+            // Activer l'environnement virtuel et installer les dépendances
+            sh '. venv/bin/activate && pip install -r requirements.txt'
         }
+    }
+
 
         // Étape 3 : Exécuter les Tests Unitaires avec Pytest
         stage('Exécuter les Tests Unitaires') {
