@@ -34,8 +34,10 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                // Exécuter les tests unitaires avec pytest
-                sh 'pytest --maxfail=1 --disable-warnings -q'
+                script {
+                    // Exécuter les tests unitaires avec pytest
+                    sh 'pytest --maxfail=1 --disable-warnings -q'
+                }
             }
         }
 
