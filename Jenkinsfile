@@ -10,16 +10,16 @@ pipeline {
         stage('Installer les Dépendances') {
             steps {
                 script {
-                    // Vérifier si le répertoire venv existe, sinon le créer
-                    if (!fileExists('venv')) {
-                        echo 'Création de l\'environnement virtuel venv'
-                        sh 'python3 -m venv venv'  // Créer l'environnement virtuel
-                    }
-                    
-                    // Utiliser . pour activer l'environnement virtuel et installer les dépendances
-                    echo 'Activation de l\'environnement virtuel et installation des dépendances'
+                    // Créer l'environnement virtuel et installer les dépendances
+                    echo 'Création de l\'environnement virtuel et installation des dépendances'
                     sh '''
-                        . venv/bin/activate
+                        # Créer l'environnement virtuel s'il n'existe pas
+                        if [ ! -d "venv" ]; then
+                            python3 -m venv venv
+                        fi
+
+                        # Activer l'environnement virtuel et installer les dépendances
+                        source venv/bin/activate
                         pip install -r requirements.txt
                     '''
                 }
