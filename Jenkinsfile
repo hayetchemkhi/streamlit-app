@@ -2,14 +2,12 @@ pipeline {
     agent any
 
     environment {
-        // Définir la version de Python
         PYTHON_VERSION = '3.9'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                // Récupérer le code depuis le repository Git
                 checkout scm
             }
         }
@@ -17,10 +15,13 @@ pipeline {
         stage('Set up Python') {
             steps {
                 script {
-                    // Installer Python et pip si nécessaire
+                    // Mettre à jour la liste des paquets et installer Python 3.9 à partir du PPA deadsnakes
                     sh 'sudo apt-get update'
-                    sh 'sudo apt-get install -y python${PYTHON_VERSION} python3-pip'
-                    sh 'python3 -m pip install --upgrade pip'
+                    sh 'sudo apt-get install -y software-properties-common'
+                    sh 'sudo add-apt-repository ppa:deadsnakes/ppa -y'
+                    sh 'sudo apt-get update'
+                    sh 'sudo apt-get install -y python3.9 python3-pip'
+                    sh 'python3.9 -m pip install --upgrade pip'
                 }
             }
         }
@@ -46,7 +47,6 @@ pipeline {
 
     post {
         always {
-            // Toujours exécuter cette étape, par exemple nettoyage, rapports, etc.
             echo 'Pipeline terminé'
         }
 
