@@ -5,7 +5,8 @@ pipeline {
         // Étape 1 : Cloner le code depuis GitHub
         stage('Cloner le Code') {
             steps {
-                git url: 'https://github.com/hayetchemkhi/streamlit-app.git'
+                git url: 'https://github.com/hayetchemkhi/streamlit-app.git', branch: 'main'
+
             }
         }
         
