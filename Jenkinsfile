@@ -13,7 +13,8 @@ pipeline {
         // Étape 2 : Installer les Dépendances (via requirements.txt)
         stage('Installer les Dépendances') {
             steps {
-                sh 'pip install -r requirements.txt'
+                sh 'source venv/bin/activate && pip install -r requirements.txt'
+
             }
         }
 
