@@ -22,7 +22,7 @@ pipeline {
             sh '. venv/bin/activate && pip install -r requirements.txt'
         }
     }
-
+  }
 
         // Étape 3 : Exécuter les Tests Unitaires avec Pytest
         stage('Exécuter les Tests Unitaires') {
