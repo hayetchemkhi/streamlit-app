@@ -21,7 +21,13 @@ pipeline {
                     sh 'sudo add-apt-repository ppa:deadsnakes/ppa -y'
                     sh 'sudo apt-get update'
                     sh 'sudo apt-get install -y python3.9 python3-pip'
-                    sh 'python3.9 -m pip install --upgrade pip'
+
+                    // Installer distutils pour résoudre le problème de module manquant
+                    sh 'sudo apt-get install -y python3.9-distutils'
+
+                    // Vérifier l'installation de Python et pip
+                    sh 'python3.9 --version'
+                    sh 'python3.9 -m pip --version'
                 }
             }
         }
