@@ -15,7 +15,8 @@ pipeline {
                         echo 'Création de l\'environnement virtuel venv'
                         sh 'python3 -m venv venv'  // Créer l'environnement virtuel
                     }
-                    // Utiliser bash pour activer l'environnement virtuel et installer les dépendances
+                    
+                    // Utiliser . pour activer l'environnement virtuel et installer les dépendances
                     echo 'Activation de l\'environnement virtuel et installation des dépendances'
                     sh '''
                         . venv/bin/activate
