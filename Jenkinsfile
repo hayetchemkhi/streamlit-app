@@ -40,12 +40,12 @@ stage('Install/Update Dependencies') {
         script {
             sh '''
             . venv/bin/activate
-            pip install --upgrade pip
-            pip install numpy==1.23.0 pandas==1.5.3
+            pip install -r requirements.txt
             '''
         }
     }
 }
+
 
         stage('Install Dependencies') {
             steps {
