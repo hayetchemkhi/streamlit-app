@@ -1,6 +1,6 @@
 import pytest
 import pandas as pd
-from votre_fichier import authenticate, hash_password, load_users, save_user
+from app import authenticate, hash_password, load_users, save_user
 
 # Préparer un utilisateur fictif pour les tests
 @pytest.fixture
